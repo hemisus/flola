@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════════
+   FLOLA — Main stylesheet
+   ═══════════════════════════════════════════════════════════ */
+
+.root {
+    /* JavaFX CSS는 -fx-font-family에 콤마 목록(fallback)을 지원하지 않는다 → 반드시 단일 패밀리.
+       'Malgun Gothic' = 한글 윈도우 기본 UI 폰트(한글+영문 모두 자연스러움).
+       바꾸려면 이 한 줄의 이름만 교체. OS 기본을 원하면 "System". */
+    -fx-font-family: "Malgun Gothic";
+    -fx-font-size: 13px;
+    -fx-background-color: #f5f4f1;
+    -fx-text-fill: #2a2a2e;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* ── Menu Bar ─────────────────────────────────────────── */
+
+.menu-bar {
+    -fx-background-color: #f6f6f4;
+    -fx-border-color: transparent transparent #e0dfd9 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 2 6;
+}
+.menu-bar .label {
+    -fx-text-fill: #2a2a2e;
+    -fx-padding: 4 10;
+}
+.menu-bar .menu:hover,
+.menu-bar .menu:showing {
+    -fx-background-color: #ecebe5;
+    -fx-background-radius: 4;
+}
+
+.context-menu {
+    -fx-background-color: #fdfdfb;
+    -fx-border-color: #e0dfd9;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+}
+.menu-item {
+    -fx-padding: 6 12;
+    -fx-background-radius: 4;
+}
+.menu-item:focused {
+    -fx-background-color: #ecebe5;
+}
+.menu-item .label {
+    -fx-text-fill: #2a2a2e;
+}
+.menu-item:disabled .label {
+    -fx-text-fill: #b8b6ad;
+}
+
+/* ── Section Header (사이드바·인스펙터 공통) ────────────── */
+
+.section-header {
+    -fx-font-weight: bold;
+    -fx-font-size: 10px;
+    -fx-text-fill: #989688;
+    -fx-padding: 14 16 6 16;
+}
+/* ── Sidebar / Inspector (테두리 제거, SplitPane divider가 대신함) ── */
+
+.sidebar {
+    -fx-background-color: #fafaf7;
+}
+.inspector {
+    -fx-background-color: #fafaf7;
+}
+
+/* ── SplitPane ─────────────────────────────────────────── */
+
+.split-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-box-border: transparent;
+}
+.split-pane > .split-pane-divider {
+    -fx-background-color: #e0dfd9;
+    -fx-padding: 0 1 0 1;
+}
+.split-pane:horizontal > .split-pane-divider:hover {
+    -fx-background-color: #b8b6ad;
+}
+
+/* ── CanvasPane ────────────────────────────────────────── */
+
+.canvas-pane {
+    -fx-background-color: #edece7;
+}
+.canvas-grid-line {
+    -fx-stroke: #d8d6cc;
+    -fx-stroke-width: 0.6;
+}
+/* 다중 선택 러버밴드 (드래그 영역 지정) */
+.selection-rect {
+    -fx-fill: rgba(74, 124, 191, 0.18);   /* 반투명 하늘색 (ACCENT #4A7CBF 계열) */
+    -fx-stroke: #4A7CBF;
+    -fx-stroke-width: 1;
+    -fx-stroke-dash-array: 4 4;
+}
+/* ── TreeView ─────────────────────────────────────────── */
+
+.tree-view {
+    -fx-background-color: transparent;
+    -fx-padding: 4 8;
+}
+.tree-view:focused {
+    -fx-background-color: transparent;
+}
+.tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2a2a2e;
+    -fx-padding: 3 6;
+    -fx-background-radius: 4;
+}
+.tree-cell:filled:hover {
+    -fx-background-color: #eeece4;
+}
+.tree-cell:filled:selected,
+.tree-cell:filled:selected:focused {
+    -fx-background-color: #dbd9cf;
+    -fx-text-fill: #1a1a1e;
+}
+.tree-cell > .tree-disclosure-node > .arrow {
+    -fx-background-color: #888880;
+}
+.tree-cell.tree-category {
+    -fx-font-weight: bold;
+    -fx-text-fill: #4a4a52;
+}
+
+/* ── Canvas Area ──────────────────────────────────────── */
+
+.canvas-area {
+    -fx-background-color: #edece7;
+}
+
+/* ── Status Bar ───────────────────────────────────────── */
+
+.status-bar {
+    -fx-background-color: #f0efe9;
+    -fx-border-color: #e0dfd9 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 4 14;
+    -fx-min-height: 24;
+}
+.status-label {
+    -fx-text-fill: #6e6c63;
+    -fx-font-size: 11px;
+}
+
+/* ── Placeholder text ─────────────────────────────────── */
+
+.placeholder-label {
+    -fx-text-fill: #b8b6ad;
+    -fx-font-size: 12px;
+}
+
+/* ── Tensor Editor ──────────────────────────────────── */
+.editor-root  { -fx-background-color: #f5f4f1; }
+
+.editor-card {
+    -fx-background-color: #fafaf7;
+    -fx-border-color: #e0dfd9;
+    -fx-border-width: 1;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+.editor-card-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 11px;
+    -fx-text-fill: #989688;
+}
+.editor-topbar {
+    -fx-background-color: #fafaf7;
+    -fx-border-color: transparent transparent #e0dfd9 transparent;
+    -fx-border-width: 0 0 1 0;
+}
+.tensor-cell {
+    -fx-background-color: white;
+    -fx-border-color: #e8e7e1;
+    -fx-border-width: 0.5;
+    -fx-alignment: center;
+    -fx-font-size: 12px;
+    -fx-padding: 0;
+}
+.tensor-cell:focused {
+    -fx-background-color: #f3f8ff;
+    -fx-border-color: #6a98d0;
+    -fx-border-width: 1.5;
+}
+.tensor-index-cell {
+    -fx-background-color: #ede9e2;
+    -fx-text-fill: #9a9788;
+    -fx-font-weight: bold;
+    -fx-font-size: 10px;
+    -fx-alignment: center;
+}
+
+/* ── Editor Buttons ───────────────────────── */
+
+/* 공통 기반 — border를 항상 확보해 :focused에서 크기 변화 없음 */
+.editor-btn {
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+    -fx-border-color: transparent;
+    -fx-border-width: 1.5;
+    -fx-cursor: hand;
+    -fx-padding: 6 14 6 14;
+    -fx-font-size: 12px;
+}
+
+/* Primary (Apply / Save Changes) */
+.editor-btn-primary {
+    -fx-background-color: #4A7CBF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.editor-btn-primary:hover    { -fx-background-color: #5a8fce; }
+.editor-btn-primary:pressed  { -fx-background-color: #3a6aaa; }
+.editor-btn-primary:focused  { -fx-background-color: #5a8fce; -fx-border-color: #2a5a9a; }
+.editor-btn-primary:disabled { -fx-background-color: #a0b8d8; -fx-text-fill: #dde8f4; }
+
+/* Secondary (Cancel / Undo / Redo / 기타) */
+.editor-btn-secondary {
+    -fx-background-color: #e8e7e1;
+    -fx-text-fill: #5a5a52;
+}
+.editor-btn-secondary:hover    { -fx-background-color: #d8d7d0; }
+.editor-btn-secondary:pressed  { -fx-background-color: #c8c7bf; }
+.editor-btn-secondary:focused  { -fx-background-color: #d8d7d0; -fx-border-color: #9a9888; }
+.editor-btn-secondary:disabled { -fx-background-color: #f0efe9; -fx-text-fill: #b8b6ad; }
+
+/* Small variant (Shape Editor 내부 ＋/－ Axis, Transpose 등) */
+.editor-btn-small {
+    -fx-background-color: #e8e7e1;
+    -fx-text-fill: #5a5a52;
+    -fx-background-radius: 3;
+    -fx-border-radius: 3;
+    -fx-border-color: transparent;
+    -fx-border-width: 1;
+    -fx-cursor: hand;
+    -fx-padding: 4 10 4 10;
+    -fx-font-size: 11px;
+}
+.editor-btn-small:hover    { -fx-background-color: #d8d7d0; }
+.editor-btn-small:pressed  { -fx-background-color: #c8c7bf; }
+.editor-btn-small:focused  { -fx-background-color: #d8d7d0; -fx-border-color: #9a9888; }
+.editor-btn-small:disabled { -fx-background-color: #f0efe9; -fx-text-fill: #b8b6ad; }
+
+/* ── Editor Slider (Fixed Indices) ─────────────────────── */
+/* 기본 흰색 슬라이더가 카드 배경에 묻혀 안 보여 → 회색 트랙 + 파란 thumb */
+.editor-slider .track {
+    -fx-background-color: #d3d2cb;        /* 회색 트랙 */
+    -fx-background-radius: 4;
+    -fx-pref-height: 5px;
+}
+.editor-slider .thumb {
+    -fx-background-color: #4A7CBF;        /* 파란 thumb (ACCENT) */
+    -fx-background-radius: 10;
+    -fx-padding: 7;                       /* thumb 크기 */
+    -fx-border-color: #2a5a9a;
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+}
+.editor-slider .thumb:hover   { -fx-background-color: #5a8fce; }
+.editor-slider .thumb:pressed { -fx-background-color: #3a6aaa; }

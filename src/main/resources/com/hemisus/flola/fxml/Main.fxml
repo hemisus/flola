@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import com.hemisus.flola.ui.CanvasPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hemisus.flola.controller.MainController"
+            prefHeight="800" prefWidth="1280">
+
+    <!-- ── Top: Menu Bar ─────────────────────────────── -->
+    <top>
+        <MenuBar>
+            <menus>
+                <Menu text="File">
+                    <items>
+                        <MenuItem text="New"     onAction="#handleNew"  accelerator="Shortcut+N"/>
+                        <MenuItem text="Open..." onAction="#handleOpen" accelerator="Shortcut+O"/>
+                        <MenuItem text="Save"    onAction="#handleSave" accelerator="Shortcut+S"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="Exit"    onAction="#handleExit"/>
+                    </items>
+                </Menu>
+                <Menu fx:id="editMenu" text="Edit">
+                    <items>
+                        <MenuItem fx:id="undoMenuItem" text="Nothing to Undo" onAction="#handleUndo" accelerator="Shortcut+Z"       disable="true"/>
+                        <MenuItem fx:id="redoMenuItem" text="Nothing to Redo" onAction="#handleRedo" accelerator="Shortcut+Shift+Z" disable="true"/>
+                    </items>
+                </Menu>
+                <Menu text="Help" disable="true"/>
+            </menus>
+        </MenuBar>
+    </top>
+
+    <!-- ── Center: Resizable 3-pane split ────────────── -->
+    <center>
+        <SplitPane fx:id="mainSplitPane" dividerPositions="0.18, 0.78">
+
+            <!-- Sidebar (Library) -->
+            <VBox styleClass="sidebar"
+                  prefWidth="240" minWidth="180"
+                  SplitPane.resizableWithParent="false">
+                <Label text="LIBRARY" styleClass="section-header"/>
+                <TreeView fx:id="sidebarTree" VBox.vgrow="ALWAYS"/>
+            </VBox>
+
+            <!-- Canvas -->
+            <CanvasPane fx:id="canvasPane" minWidth="400"/>
+
+            <!-- Inspector -->
+            <VBox styleClass="inspector"
+                  prefWidth="280" minWidth="200"
+                  SplitPane.resizableWithParent="false">
+                <Label text="INSPECTOR" styleClass="section-header"/>
+                <ScrollPane fx:id="inspectorScroll" fitToWidth="true"
+                            hbarPolicy="NEVER" VBox.vgrow="ALWAYS"
+                            styleClass="inspector-scroll">
+                    <VBox fx:id="inspectorContent" styleClass="inspector-content"/>
+                </ScrollPane>
+            </VBox>
+
+        </SplitPane>
+    </center>
+
+    <!-- ── Bottom: Status Bar ────────────────────────── -->
+    <bottom>
+        <HBox styleClass="status-bar" alignment="CENTER_LEFT">
+            <Label fx:id="statusLabel" text="Ready" styleClass="status-label"/>
+        </HBox>
+    </bottom>
+</BorderPane>

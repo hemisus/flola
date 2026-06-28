@@ -1,0 +1,43 @@
+# ── Build output (Maven) ──────────────────────────────
+target/
+
+# ── Maven shade plugin (fat jar) ──────────────────────
+dependency-reduced-pom.xml
+
+# ── Packaging output (jpackage) ───────────────────────
+jpackage-input/
+dist/
+*.zip
+
+# ── Eclipse ───────────────────────────────────────────
+.settings/
+.classpath
+.project
+bin/
+.metadata/
+
+# ── IntelliJ IDEA ─────────────────────────────────────
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ── VS Code ───────────────────────────────────────────
+.vscode/
+
+# ── NetBeans ──────────────────────────────────────────
+nbproject/
+nbbuild/
+nbdist/
+
+# ── Java / logs / temp ────────────────────────────────
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# ── OS files ──────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
