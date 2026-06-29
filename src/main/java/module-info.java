@@ -2,6 +2,7 @@ module com.hemisus.flola {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires java.prefs;
     requires com.google.gson;
     
     opens com.hemisus.flola             to javafx.graphics, javafx.fxml;

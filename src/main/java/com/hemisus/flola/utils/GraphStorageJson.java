@@ -9,11 +9,14 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-/** FLOLA 프로젝트 폴더 저장/로드 (Gson). project.json + customops/<name>.json */
+/** FLOLA 프로젝트 폴더 저장/로드 (Gson). project.flola + customops/<name>.json */
 public final class GraphStorageJson {
 
     private static final int CURRENT_VERSION = 2;
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+
+    /** 프로젝트 진입 파일 이름 (폴더 안). 사용자가 직접 더블클릭/선택하는 파일. */
+    public static final String PROJECT_FILE = "project.flola";
 
     private GraphStorageJson() {}
 
@@ -84,14 +87,14 @@ public final class GraphStorageJson {
         GraphDTO mainGraph = serializeGraph(graph, tensorPool,
             n -> positions.getOrDefault(n, new double[]{0, 0}));
 
-        // 4) project.json
+        // 4) project.flola
         List<SidebarTensorDTO> sbTensors = new ArrayList<>();
         for (TensorNode tn : sidebarTensors)
             sbTensors.add(new SidebarTensorDTO(tn.getTensor().getUuid(), tn.getNodeName()));
         List<String> sbCustomOps = new ArrayList<>();
         for (CustomOperationNode t : sidebarCustomOps) sbCustomOps.add(t.getOperation().getUuid());
 
-        writeJson(new File(projectDir, "project.json"), new ProjectDTO(
+        writeJson(new File(projectDir, PROJECT_FILE), new ProjectDTO(
             CURRENT_VERSION, new ArrayList<>(tensorPool.values()), sbTensors, sbCustomOps, mainGraph));
 
         // 5) customops/<name>.json (이전 잔재 제거 후 새로 작성, 각 자체 완결)
@@ -198,7 +201,7 @@ public final class GraphStorageJson {
             project = GSON.fromJson(r, ProjectDTO.class);
         }
         if (project == null || project.version() <= 0)
-            throw new IOException("유효한 FLOLA 프로젝트 파일이 아닙니다 (project.json을 선택하세요)");
+            throw new IOException("유효한 FLOLA 프로젝트 파일이 아닙니다 (" + PROJECT_FILE + "을 선택하세요)");
 
         File customOpsDir = new File(projectDir, "customops");
         // 1) CustomOp 정의 풀 (폴더 스캔 → 2-pass)

@@ -25,7 +25,9 @@ import com.hemisus.flola.model.UtilityNode;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +48,9 @@ import java.util.*;
 import com.hemisus.flola.model.CustomOperation;
 import com.hemisus.flola.ui.CustomOperationEditorStage;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import javafx.stage.Modality;
+import com.hemisus.flola.utils.RecentProjects;
 
 public class MainController implements CanvasContext {
     @FXML private TreeView<Object> sidebarTree;
@@ -1174,17 +1179,27 @@ public class MainController implements CanvasContext {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open Project");
         fc.getExtensionFilters().add(
-            new FileChooser.ExtensionFilter("FLOLA Project (project.json)", "*.json"));
+            new FileChooser.ExtensionFilter("FLOLA Project (*.flola)", "*.flola"));
         if (lastDirectory != null) fc.setInitialDirectory(lastDirectory);
         File file = fc.showOpenDialog(canvasPane.getScene().getWindow());
-        if (file == null) return;                 // 파일 선택 취소 → 저장 확인도 안 띄움
-        if (!confirmSaveIfDirty()) return;         // 열 파일을 고른 뒤에 현재 프로젝트 저장 확인
+        if (file == null) return;                 // 파일 선택 취소
+        openProjectFile(file);
+    }
+
+    /**
+     * 지정한 .flola 프로젝트 파일을 연다 (저장 확인 포함).
+     * 메뉴 Open뿐 아니라 파일 연결 더블클릭/시작 인자({@code MainApp})에서도 호출된다.
+     */
+    public void openProjectFile(File file) {
+        if (file == null || !file.exists()) return;
+        if (!confirmSaveIfDirty()) return;         // 현재 프로젝트 변경분 저장 확인
         lastDirectory = file.getParentFile();
         try {
             loadProject(file);
             currentProjectDir = file.getParentFile();   // 프로젝트 폴더 기억 → 이후 Save는 바로 이 폴더로
             dirty = false;
             undoManager.markClean();
+            RecentProjects.add(file);                    // 최근 프로젝트 목록에 추가
             setStatus("Loaded: " + (file.getParentFile() != null ? file.getParentFile().getName() : file.getName()));
         } catch (Exception e) {
         	DialogHelper.showWarning("Open failed: " + e.getMessage());
@@ -1192,6 +1207,98 @@ public class MainController implements CanvasContext {
     }
 
     @FXML private void handleSave() { saveProject(); }
+
+    /**
+     * 시작 시 표시하는 프로젝트 선택 창 (Eclipse 워크스페이스 선택과 유사).
+     * 새 프로젝트로 시작하거나, 기존 .flola를 열거나, 최근 프로젝트를 원클릭으로 연다.
+     * {@code MainApp}이 메인 창을 띄운 직후 (파일 인자가 없을 때) 호출한다.
+     */
+    public void showStartupChooser() {
+        Stage dialog = new Stage();
+        dialog.initOwner(canvasPane.getScene().getWindow());
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("FLOLA - Open Project");
+
+        Label title = new Label("FLOLA");
+        title.setStyle("-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:#4A7CBF;");
+        Label sub = new Label("Linear Algebra Editor");
+        sub.setStyle("-fx-font-size:12; -fx-text-fill:#8a8880;");
+
+        Label recentLbl = new Label("Recent Projects");
+        recentLbl.setStyle("-fx-font-weight:bold; -fx-text-fill:#6e6c63;");
+
+        ListView<File> recentList = new ListView<>();
+        recentList.getItems().addAll(RecentProjects.list());
+        recentList.setPrefHeight(190);
+        recentList.setPlaceholder(new Label("최근 연 프로젝트가 없습니다"));
+        recentList.setCellFactory(lv -> new ListCell<>() {
+            @Override protected void updateItem(File f, boolean empty) {
+                super.updateItem(f, empty);
+                if (empty || f == null) { setText(null); return; }
+                File dir = f.getParentFile();
+                String name = (dir != null) ? dir.getName() : f.getName();
+                String path = (dir != null) ? dir.getAbsolutePath() : f.getAbsolutePath();
+                setText(name + "\n" + path);
+            }
+        });
+
+        Button newBtn  = makeStartBtn("New Project", true);
+        Button openBtn = makeStartBtn("Open Project…", false);
+
+        // 동작 정의
+        Runnable openSelected = () -> {
+            File sel = recentList.getSelectionModel().getSelectedItem();
+            if (sel == null) return;
+            if (!sel.exists()) {                       // 경로가 사라진 항목 정리
+                DialogHelper.showWarning("파일을 찾을 수 없습니다:\n" + sel.getAbsolutePath());
+                RecentProjects.remove(sel);
+                recentList.getItems().remove(sel);
+                return;
+            }
+            dialog.close();
+            openProjectFile(sel);
+        };
+        recentList.setOnMouseClicked(e -> { if (e.getClickCount() == 2) openSelected.run(); });
+
+        newBtn.setOnAction(e -> {
+            dialog.close();                            // 메인 창은 이미 빈 새 프로젝트 상태
+            currentProjectDir = null;
+            dirty = false;
+            setStatus("New project");
+        });
+        openBtn.setOnAction(e -> {
+            FileChooser fc = new FileChooser();
+            fc.setTitle("Open Project");
+            fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("FLOLA Project (*.flola)", "*.flola"));
+            if (lastDirectory != null) fc.setInitialDirectory(lastDirectory);
+            File f = fc.showOpenDialog(dialog);
+            if (f != null) { dialog.close(); openProjectFile(f); }
+        });
+
+        HBox buttons = new HBox(10, newBtn, openBtn);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+
+        VBox root = new VBox(6,
+            title, sub, new Separator(), recentLbl, recentList, buttons);
+        VBox.setMargin(buttons, new Insets(8, 0, 0, 0));
+        root.setPadding(new Insets(24));
+        root.setPrefWidth(480);
+        root.getStyleClass().add("editor-root");
+
+        Scene scene = new Scene(root);
+        var css = getClass().getResource("/com/hemisus/flola/css/main.css");
+        if (css != null) scene.getStylesheets().add(css.toExternalForm());
+        dialog.setScene(scene);
+        dialog.showAndWait();   // 선택할 때까지 대기 (X로 닫으면 빈 새 프로젝트로 시작)
+    }
+
+    private Button makeStartBtn(String text, boolean primary) {
+        Button b = new Button(text);
+        b.getStyleClass().addAll("editor-btn", primary ? "editor-btn-primary" : "editor-btn-secondary");
+        b.setFocusTraversable(false);
+        return b;
+    }
 
     /**
      * 현재 프로젝트를 저장한다.
@@ -1222,6 +1329,7 @@ public class MainController implements CanvasContext {
             lastDirectory = (dir.getParentFile() != null) ? dir.getParentFile() : dir;
             dirty = false;
             undoManager.markClean();
+            RecentProjects.add(new File(dir, GraphStorageJson.PROJECT_FILE));   // 최근 목록에 추가
             setStatus("Saved: " + dir.getName());
             return true;
         } catch (IOException e) {

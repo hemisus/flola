@@ -1,112 +1,123 @@
 # FLOLA - Linear Algebra Editor
 
+[한국어](README_ko.md) | **English**
+
 ![Java](https://img.shields.io/badge/Java-25-orange)
 ![JavaFX](https://img.shields.io/badge/JavaFX-26.0.1-0095D5)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Release](https://img.shields.io/github/v/release/hemisus/flola?include_prereleases)
 
-**FLOLA (Flow of Linear Algebra)**는 선형대수학 연산을 쉽게 실행하고, 노드&그래프 구조를 통해 복합적인 연산을 표현 및 저장, 연산 결과를 시각화 할 수 있는 선형대수학 종합 에디터입니다.
+<div align="center">
+  <img src="docs/images/flola.png" width="400">
+</div>
 
-- 벡터, 행렬 등의 데이터를 직접 생성하여 편집하고, 다차원의 텐서 데이터를 코드 작성 없이 자유롭게 다룰 수 있습니다.
-- 사칙연산, 정사영, 행렬분해 등 다양한 미리 정의되어 있는 연산기능을 통해 쉽게 원하는 결과값을 확인할 수 있습니다.
-- 노드를 연결하여 복합적인 연산 과정을 한눈에 알아볼 수 있게 표현 및 저장할 수 있습니다.
-- 직접 만든 연산 구조를 노드로 저장할 수 있어 인공지능 모델과 같은 복잡한 구조를 구현하고 부담 없이 편집 및 사용할 수 있습니다.
+**FLOLA (Flow of Linear Algebra)** is a comprehensive linear algebra editor that lets you run operations easily, visualize complex computation flows, and save them as node graphs.
 
-원래는 학부 기말 과제였던 프로그램의 기능과 UI를 다듬어 만든 프로그램입니다.
+- Create and edit vectors, matrices, and multi-dimensional tensor data **without writing any code**.
+- Instantly get results using 24 built-in operations including arithmetic, projection, and matrix decomposition.
+- Connect nodes to visualize and save complex computation processes at a glance.
+- Encapsulate your own operation graphs as reusable custom nodes — making it easy to **build and edit complex structures like neural network layers**.
+
+Originally it was my university final assignment, I rebuilt and polished into a standalone application.
 
 <br>
 
-## 📸 데모
+## 📸 Demo
 
+<div align="center">
+  <img src="docs/images/TensorEditor.gif" width="750">
+</div>
+<div align="center">
+  <img src="docs/images/CustomOpr.gif" width="750">
+</div>
+<div align="center">
+  <img src="docs/images/Projection.gif" width="750">
+</div>
 
 <br>
 
-## ⬇️ 다운로드 (바로 실행)
+## ⬇️ Download (Ready to Run)
 
-별도 설치 없이 바로 사용하려면:
+1. Download the latest `FLOLA-vX.X.X-windows-x64.zip` from the [**Releases**](https://github.com/hemisus/flola/releases) page.
+2. Extract the zip and run **`FLOLA.exe`**. — **No Java installation required** (the runtime is bundled).
 
-1. [**Releases**](https://github.com/hemisus/flola/releases) 페이지에서 최신 `FLOLA-vX.X.X-windows-x64.zip`을 다운로드합니다.
-2. 압축을 풀고 **`FLOLA.exe`** 를 실행합니다. — **Java 설치가 필요 없습니다** (실행에 필요한 런타임이 포함되어 있습니다).
-
-> 현재 **Windows 64-bit** 빌드만 제공됩니다.
+> Currently only **Windows 64-bit** builds are provided.
 >
-> ⚠️ 코드 서명이 되어 있지 않아 첫 실행 시 Windows SmartScreen 경고("Windows의 PC 보호")가 나타날 수 있습니다. **추가 정보 → 실행**을 누르면 정상 실행됩니다.
+> ⚠️ The app is not code-signed, so Windows SmartScreen may show a warning ("Windows protected your PC") on first launch. Click **More info → Run anyway** to start it.
 
 <br>
 
-## ✨ 주요 기능
+## ✨ Features
 
-### 텐서 데이터 편집
-- 스칼라 / 벡터 / 행렬 / 고차원 텐서를 직접 생성하고 값을 편집
-- Shape 변경, 축(axis) 이름 지정 등 세부 편집 지원
-- NumPy 스타일 브로드캐스팅 규칙 지원
+### Tensor Data Editor
+- Create and edit scalars, vectors, matrices, and higher-dimensional tensors directly
+- Supports shape changes, axis naming, and other detailed editing options
+- NumPy-style broadcasting rules supported
 
-### 노드 기반 그래프 에디터
-- 노드를 드래그하여 캔버스에 배치하고, 출력 포트를 입력 포트로 드래그해 연결
-- **Ctrl + 스크롤**로 마우스 위치 기준 확대/축소, **마우스 휠(중간) 드래그**로 화면 이동(Pan)
-- 러버밴드 드래그 및 Shift 클릭으로 다중 노드 선택 후 한 번에 이동
-- 더티 플래그(dirty flag) 기반의 지연 평가(lazy evaluation)로 변경된 부분만 다시 계산
-- 모든 편집(노드 추가·삭제·이동·연결·값 수정 등)에 대한 **다단계 Undo / Redo** 지원
+### Built-in Operations (24 total)
 
-### 미리 정의된 연산 (총 24종)
-
-| 카테고리 | 연산 |
+| Category | Operations |
 |---|---|
-| **Basic Operation** | Add, Subtract, Matrix Multiply, Elementwise Multiply, Divide, Negate, Transpose, Clear, Sum, Average |
-| **Activation Function** | ReLU, Sigmoid, Tanh, Softmax |
-| **Advanced** | Projection(정사영), Concatenate, Split, View(reshape), Conv2D, ConvTranspose2D, MaxPool2D, Upsample, SVD, Eigenvalues |
+| **Basic** | Add, Subtract, Matrix Multiply, Elementwise Multiply, Divide, Negate, Transpose, Clear, Sum, Average |
+| **Activation** | ReLU, Sigmoid, Tanh, Softmax |
+| **Advanced** | Projection, Concatenate, Split, View (reshape), Conv2D, ConvTranspose2D, MaxPool2D, Upsample, SVD, Eigenvalues |
 
-### 커스텀 노드(서브그래프) 저장
-- 직접 구성한 연산 그래프를 하나의 재사용 가능한 커스텀 연산 노드로 캡슐화
-- 인공지능 모델처럼 복잡한 연산 구조도 부담 없이 구현하고 재사용
+### Node-based Graph Editor
+- Drag nodes onto the canvas and connect them
+- **Multi-level Undo / Redo** for all edits — node add/remove, move, connect, value change, and more
+- Canvas zoom, pan, multi-select, and copy/paste
+
+### Custom Nodes (Subgraphs)
+- Encapsulate any operation graph into a single reusable custom node
+- Build and reuse complex structures like neural network layers with ease
 
 <br>
 
-## 🛠 기술 스택
+## 🛠 Tech Stack
 
 - **Language**: Java 25
 - **GUI**: JavaFX 26.0.1 (`javafx.controls`, `javafx.fxml`, `javafx.graphics`)
-- **직렬화**: Gson 2.10.1 — 그래프/텐서 저장·불러오기(JSON)
-- **빌드 도구**: Maven (`javafx-maven-plugin`, `maven-shade-plugin`)
-- **배포**: `jpackage` — 런타임을 포함한 단독 실행 이미지 생성
+- **Serialization**: Gson 2.10.1 — graph and tensor save/load
+- **Build**: Maven (`javafx-maven-plugin`, `maven-shade-plugin`)
+- **Distribution**: `jpackage` — self-contained executable with bundled runtime
 
 <br>
 
-## 📁 프로젝트 구조
+## 📁 Project Structure
 
 ```
 com.hemisus.flola
-├── model       # Graph, GraphNode, OperationNode, TensorNode, Tensor, ConnectionModel,
-│               # CustomOperation, CustomOperationNode, GenericOperationNode 등 핵심 도메인 모델
+├── controller  # MainController, GraphCommand infrastructure (Undo/Redo)
+├── event       # Event interfaces (ShapeChangeListener, etc.)
+├── model       # Core domain: Graph, GraphNode, OperationNode, TensorNode,
+│               # Tensor, CustomOperation, CustomOperationNode, GenericOperationNode
 ├── ui          # CanvasPane, NodeView, PortView, ConnectionLayer,
-│               # TensorEditorStage, OperationEditorStage 등 에디터 UI
-├── controller  # MainController 등 FXML 컨트롤러 + Undo/Redo(GraphCommand) 인프라
-├── utils       # TensorOperations(연산 구현), OperationRegistry(연산 등록/조회),
-│               # GraphStorageJson(저장/불러오기), DataConverter
-└── event       # ShapeChangeListener 등 이벤트 인터페이스
+│               # TensorEditorStage, OperationEditorStage, and other editor UI
+├── utils       # TensorOperations, OperationRegistry, GraphStorageJson, DataConverter
+└── viewmodel   # NodeViewModel, TensorViewModel — editor UI state and Undo/Redo drafts
 ```
 
 <br>
 
-## 🚀 소스에서 빌드 / 개발
+## 🚀 Build from Source
 
-**요구 사항**: JDK 25 이상, Maven
+**Requirements**: JDK 25+, Maven
 
 ```bash
 git clone https://github.com/hemisus/flola.git
 cd flola
 
-# 1) 개발용 실행
+# Run in development mode
 mvn clean javafx:run
 
-# 2) 실행 가능한 jar 빌드  →  target/flola.jar
+# Build executable jar  →  target/flola.jar
 mvn clean package
-java -jar target/flola.jar      # 실행에는 JDK 25가 설치되어 있어야 함
+java -jar target/flola.jar      # requires JDK 25 installed
 ```
 
-### 단독 실행 파일(.exe) 만들기 — jpackage
+### Packaging as a standalone .exe — jpackage
 
-jpackage로 런타임을 포함한 Windows 실행 이미지를 생성할 수 있습니다. (Windows에서 실행, 산출물은 `dist/FLOLA/FLOLA.exe`)
+Use `jpackage` to create a self-contained Windows app image with a bundled runtime. Output: `dist/FLOLA/FLOLA.exe`
 
 ```bat
 mvn clean package
@@ -114,16 +125,16 @@ mkdir jpackage-input
 copy target\flola.jar jpackage-input\
 jpackage --type app-image --name FLOLA --input jpackage-input ^
          --main-jar flola.jar --main-class com.hemisus.flola.Launcher ^
-         --app-version 0.1.0 --dest dist
+         --app-version X.X.X --icon flola.ico --dest dist
 ```
 
 <br>
 
-## 향후 계획
+## Roadmap
 
-시간날때 틈틈이 UI나 기능들을 직접 사용해보며 계속해서 업데이트할 예정입니다.
+I plan to keep refining the UI and features over time as I use the app myself.
 
-최대한 테스트 해보았으나 여전히 버그가 존재할 수 있습니다. 버그나 개선할 점이 있으시면 언제든 편하게 연락주시면 업데이트하도록 하겠습니다.
+The app has been tested as thoroughly as possible, but bugs may still exist. If you find any issues or have suggestions, feel free to open a [Discussion](https://github.com/hemisus/flola/discussions) or reach out directly.
 
 <br>
 
