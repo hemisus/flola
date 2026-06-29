@@ -1369,7 +1369,18 @@ public class MainController implements CanvasContext {
         return false;                          // Cancel
     }
 
-    @FXML private void handleExit() { Platform.exit(); }
+    @FXML private void handleExit() {
+        if (confirmSaveIfDirty()) Platform.exit();
+    }
+
+    /**
+     * 창 닫기(X 버튼) 시 호출 — 미저장 변경이 있으면 저장 여부를 묻는다.
+     * @return 닫기를 진행해도 되면 true, 취소(닫지 않음)면 false.
+     */
+    public boolean confirmClose() {
+        return confirmSaveIfDirty();
+    }
+
     private void loadProject(File projectFile) throws IOException {
         suppressDirty = true;
         try {

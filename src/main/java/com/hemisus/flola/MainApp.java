@@ -20,7 +20,7 @@ public class MainApp extends Application {
         Parent root = loader.load();
         MainController controller = loader.getController();
 
-        Scene scene = new Scene(root, 1600, 1000);
+        Scene scene = new Scene(root, 1600, 900);
         scene.getStylesheets().add(getClass().getResource("/com/hemisus/flola/css/main.css").toExternalForm());
         stage.setTitle("FLOLA - Linear Algebra Editor");
 
@@ -29,6 +29,12 @@ public class MainApp extends Application {
         if (iconUrl != null) stage.getIcons().add(new Image(iconUrl.toExternalForm()));
 
         stage.setScene(scene);
+
+        // 창 X 버튼으로 닫을 때도 미저장 변경 저장 확인 (취소 시 닫기 취소)
+        stage.setOnCloseRequest(e -> {
+            if (!controller.confirmClose()) e.consume();
+        });
+
         stage.show();
 
         // 파일 연결/명령행으로 .flola 경로가 들어오면 바로 그 프로젝트를 연다.

@@ -22,7 +22,7 @@ REM Use flola.ico if present in project root (optional)
 set ICON=
 if exist flola.ico set ICON=--icon flola.ico
 
-jpackage --type app-image --name FLOLA --input jpackage-input --main-jar flola.jar --main-class com.hemisus.flola.Launcher --app-version 0.1.1 %ICON% --dest dist
+jpackage --type app-image --name FLOLA --input jpackage-input --main-jar flola.jar --main-class com.hemisus.flola.Launcher --app-version 0.1.2 %ICON% --dest dist
 
 if errorlevel 1 (
   echo [ERROR] jpackage failed
