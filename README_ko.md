@@ -8,7 +8,7 @@
 ![Release](https://img.shields.io/github/v/release/hemisus/flola?include_prereleases)
 
 <div align="center">
-  <img src="docs/images/flola.png" width="400">
+  <img src="docs/images/flola.png" width="350">
 </div>
 
 **FLOLA (Flow of Linear Algebra)** 는 선형대수학 연산을 쉽게 실행하고, 노드&그래프 구조를 통해 복합적인 연산을 시각화 및 저장할 수 있는 선형대수학 종합 에디터입니다.
@@ -73,6 +73,10 @@
 
 <br>
 
+## 📖 사용법
+
+자세한 사용법은 [User Guide (PDF)(한국어)](docs/FLOLA_DOC_KR.pdf)에서 확인하실 수 있습니다.
+
 ## 🛠 기술 스택
 
 - **Language**: Java 25
@@ -80,7 +84,6 @@
 - **직렬화**: Gson 2.10.1 — 그래프/텐서 저장·불러오기
 - **빌드 도구**: Maven (`javafx-maven-plugin`, `maven-shade-plugin`)
 - **배포**: `jpackage` — 런타임을 포함한 단독 실행 이미지 생성
-
 
 <br>
 

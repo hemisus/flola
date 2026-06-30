@@ -8,7 +8,7 @@
 ![Release](https://img.shields.io/github/v/release/hemisus/flola?include_prereleases)
 
 <div align="center">
-  <img src="docs/images/flola.png" width="400">
+  <img src="docs/images/flola.png" width="350">
 </div>
 
 **FLOLA (Flow of Linear Algebra)** is a comprehensive linear algebra editor that lets you run operations easily, visualize complex computation flows, and save them as node graphs.
@@ -72,6 +72,10 @@ Originally it was my university final assignment, I rebuilt and polished into a 
 - Build and reuse complex structures like neural network layers with ease
 
 <br>
+
+## 📖 How to Use
+
+Please check the [User Guide (PDF)](docs/FLOLA_DOC_EN.pdf) for detailed instructions.
 
 ## 🛠 Tech Stack
 
